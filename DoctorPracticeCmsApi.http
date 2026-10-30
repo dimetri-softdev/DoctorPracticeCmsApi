@@ -1,0 +1,56 @@
+@DoctorPracticeCmsApi_HostAddress = https://localhost:7249
+
+### Public practice website content
+GET {{DoctorPracticeCmsApi_HostAddress}}/api/site
+Accept: application/json
+
+### Public published pages
+GET {{DoctorPracticeCmsApi_HostAddress}}/api/pages
+Accept: application/json
+
+### Request an appointment (this submits a request, not a confirmed booking)
+POST {{DoctorPracticeCmsApi_HostAddress}}/api/appointments
+Content-Type: application/json
+
+{
+  "patientName": "Taylor Example",
+  "email": "taylor@example.com",
+  "phoneNumber": "+27123456789",
+  "requestedAt": "2027-01-15T10:00:00+02:00"
+}
+
+### Sign in as the configured practice administrator
+POST {{DoctorPracticeCmsApi_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "ReplaceWithYourAdminPassword!"
+}
+
+### Create a published page (replace token)
+POST {{DoctorPracticeCmsApi_HostAddress}}/api/pages
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "title": "About the Practice",
+  "slug": "about",
+  "summary": "Learn about our practice.",
+  "body": "Public website content.",
+  "isPublished": true
+}
+
+### List appointment requests (replace token)
+GET {{DoctorPracticeCmsApi_HostAddress}}/api/appointments
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Confirm an appointment request (replace token and ID)
+PATCH {{DoctorPracticeCmsApi_HostAddress}}/api/appointments/1/status
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "status": "Confirmed"
+}
